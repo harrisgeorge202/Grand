@@ -1,0 +1,14 @@
+<% include ./layout %>
+
+<% if(!locals.user) {%>
+<h6>Error!!! Please Register</h6>
+    <% } %>
+
+    
+    <% if(locals.user && !locals.user.admin) {%>
+        <h6>NotAdmin</h6>
+        <% } %>
+
+        <% if(locals.user.admin) {%>
+        <h6>Admin</h6>
+    <% } %>
