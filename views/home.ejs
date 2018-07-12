@@ -1,5 +1,12 @@
 <% include ./layout %>
 
+
+<h6><%= (moviename.moviename)?moviename.moviename:'' %></h6>
+<h6><%= (originalname.originalname)?originalname.originalname:'' %></h6>
+
+<img src="landscape-2947094_960_720.jpg" width="460" height="345"/>
+
+
 <% if(!locals.user) {%>
 <h6>Error!!! Please Register</h6>
     <% } %>
@@ -10,5 +17,5 @@
         <% } %>
 
         <% if(locals.user.admin) {%>
-        <h6>Admin</h6>
+            <% include ./admin %>
     <% } %>

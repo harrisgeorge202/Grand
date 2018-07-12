@@ -1,2 +1,11 @@
-<% include ./layout %>
+<!-- <% include ./layout %> -->
 <h6>Admin</h6>
+
+<form class="form-signin" role="form" action="/adminDashboard" method="post" enctype="multipart/form-data">
+<input class="form-control" type="text" name="moviename" id="inputMoviename" placeholder="movie name"/>
+
+<input type="file" name="myimage" ></input>
+<input type="submit" name="submit" value="submit"></input>
+
+<!-- <button class="btn btn-lg btn-primary btn-block" type="submit">Submit</button> -->
+</form>

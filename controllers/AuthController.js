@@ -7,7 +7,17 @@ var userController = {};
 
 // Restrict access to root page
 userController.home = function(req, res) {
-  res.render('index', { user : req.user });
+  AdminDashboard.findOne({ _id: "5b46dcb0f1210e1c0f7663c0"},{moviename:1})
+      .exec(function(err, actions) {
+          if(err) {
+              return res.status(500).json({ status: false, message: 'Database error'})
+          } else {
+            return res.render('index', { 
+              user : req.user,
+              moviename : actions
+            })
+          }
+      })
 };
 
 // Go to registration page
@@ -16,13 +26,10 @@ userController.register = function(req, res) {
 };
 
 
-
-
-
 // Admin adding movie datails
 userController.adminDetails = function(req, res) {
     var admindashboard = new AdminDashboard({ 
-        moviename : req.body.moviename, 
+      moviename : req.body.moviename, 
       })
         // .then(() => {
         //     return res.redirect('/user');
@@ -32,15 +39,11 @@ userController.adminDetails = function(req, res) {
                 return res.status(500).json({ status: false, message: 'Database error'})
             } else {
                  console.log("admindashboard =================>>>>>>>>>>>>>>>>>")
-                // console.log(actionObj)
                 return res.status(200).json({ status: true, message: 'inserted', data:admindashboard })
                 res.send("Name saved to database");
             }
         })
     };
-
-
-
 
 
 // Post registration
@@ -80,11 +83,11 @@ userController.doLogin = function(req, res,) {
 
 if(user.admin !== 'true') {
 console.log("NOt admin", user.admin, user['username'])
-res.redirect('/user');
+res.redirect('/home');
 }
 else if (user.admin === 'true') {
 console.log("admin----------------------->")
-res.redirect('/admin');
+res.redirect('/home');
 }
     });
   });
@@ -100,7 +103,7 @@ userController.logout = function(req, res) {
 
 // admin Dashboard
 userController.adminDashboard = function(req, res) {
-    res.render('admin', { user : req.user });
+    res.render('home', { user : req.user });
   };
 
 
@@ -114,26 +117,22 @@ userController.userDashboard = function(req, res) {
 
 // User Home page
 userController.homepage = function(req, res) {
-    // User.register(new User({ username : req.body.username, name: req.body.name }), req.body.password, function(err, user) {
-    //   if (err) {
-    //     return res.render('register', { user : user });
-    //   }
-    res.render('home', { user : req.user });
+
+  AdminDashboard.findOne({ _id: "5b4758fb97cf286d6f97d22f"},{moviename:1, originalname:1})
   
-    //   passport.authenticate('local')(req, res, function () {
-    //     res.redirect('/home');
-    //   });
-    // });
+      .exec(function(err, actions) {
+          if(err) {
+              return res.status(500).json({ status: false, message: 'Database error'})
+          } else {
+            return res.render('home', { 
+              user : req.user,
+              moviename : actions,
+              originalname : actions
+            })
+            // .status(200).json({ status: true, message: 'Actions fetched', data: actions})
+          }
+      })
   };
-
-
-
-
-
-
-
-
-
 
 
 
