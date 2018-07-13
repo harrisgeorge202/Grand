@@ -114,11 +114,55 @@ userController.userDashboard = function(req, res) {
   };
 
 
+  userController.ticketbooking = function(req, res) {
+
+
+
+
+    AdminDashboard.findOne({ _id: "5b482f4d1efa551a83141a10"},{moviename:1, originalname:1, date1:1, date2:1, firstShow:1, morningShow:1, noonShow:1, secondShow:1})
+    .exec(function(err, actions) {
+        if(err) {
+            return res.status(500).json({ status: false, message: 'Database error'})
+        } else {
+          console.log(actions.date1.toDateString());
+
+          return res.render('ticketbooking', { 
+            user : req.user,
+            moviename : actions,
+            originalname : actions,
+            date1 : actions,
+            date2 : actions,
+            firstShow : actions,
+            morningShow : actions,
+            noonShow : actions,
+            secondShow : actions
+          })
+          // .status(200).json({ status: true, message: 'Actions fetched', data: actions})
+        }
+    })
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    // res.render('ticketbooking', { user : req.user });
+  };
+
+
 
 // User Home page
 userController.homepage = function(req, res) {
 
-  AdminDashboard.findOne({ _id: "5b4758fb97cf286d6f97d22f"},{moviename:1, originalname:1})
+  AdminDashboard.findOne({ _id: "5b482f4d1efa551a83141a10"},{moviename:1, originalname:1})
   
       .exec(function(err, actions) {
           if(err) {

@@ -38,63 +38,79 @@ router.get('/admin', function(req, res, next) {
    });
  
 
-
-
-
-
-
-
-   
-
-
-router.addImage = function(image, callback) {
-    AdminDashboard.create(image, callback);
+router.addImage = function(image, callback, req, res) {
+// AdminDashboard.create(image, callback);
+// console.log("image------------------->", image)
+// console.log("callback------------------->", callback)
+    AdminDashboard.findOneAndUpdate({_id: "5b482f4d1efa551a83141a10"}, 
+        { $set: { 
+            path: image.path ,
+            originalname: image.originalname , 
+            moviename: image.moviename, 
+            date1: image.date1, 
+            date2: image.date2,
+            morningShow: image.morningShow,
+            noonShow: image.noonShow,
+            firstShow: image.firstShow,
+            secondShow: image.secondShow,
+        } 
+    }, {new:true},
+        function (err, rule) {
+            if (err) {                
+                return res.status(500).json(err)} 
+            else {
+                return res
+            }
+        })
 }
-// To get more info about 'multer'.. you can go through https://www.npmjs.com/package/multer..
 var storage = multer.diskStorage({
  destination: function(req, file, cb) {
- cb(null, 'uploads/')
+ cb(null, 'public/images/uploads/')
  },
  filename: function(req, file, cb) {
  cb(null, file.originalname);
  }
 });
- 
+
 var upload = multer({
  storage: storage
 });
 
-
-
-
-    
 router.post('/adminDashboard', upload.any(), function(req, res, next) {
-    console.log("req.files", req.body.moviename)
 
-    // var admindashboard = new AdminDashboard({ 
-    //     moviename : req.body.moviename, 
-    //     storage: upload
-    //     })
-
-
-
- res.send(req.files);
+ res.redirect('/home');
 /*req.files has the information regarding the file you are uploading...
 from the total information, i am just using the path and the imageName to store in the mongo collection(table)
 */
  var path = req.files[0].path;
  var imageName = req.files[0].originalname;
- var body = req.body.moviename
+ var movieName = req.body.moviename;
+ var date_1 = req.body.date1;
+ var date_2 = req.body.date2;
+ var morningShow = req.body.morningShow;
+ var noonShow = req.body.noonShow;
+ var firstShow = req.body.firstShow;
+ var secondShow = req.body.secondShow;
+ 
+
+
 
  var imagepath = {};
  imagepath['path'] = path;
  imagepath['originalname'] = imageName;
- imagepath['moviename'] = body;
+ imagepath['moviename'] = movieName;
+ imagepath['date1'] = date_1;
+ imagepath['date2'] = date_2;
+ imagepath['morningShow'] = morningShow;
+ imagepath['noonShow'] = noonShow;
+ imagepath['firstShow'] = firstShow;
+ imagepath['secondShow'] = secondShow;
  
+ 
+
  
  //imagepath contains two objects, path and the imageName
- console.log("imagepath---------->", imagepath)
- 
+ console.log("imagepath===================>", imagepath)
  //we are passing two objects in the addImage method.. which is defined above..
  router.addImage(imagepath, function(err) {
  if(err) {
@@ -104,24 +120,14 @@ from the total information, i am just using the path and the imageName to store 
 });
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
+//homepage after login
+router.get('/home', auth.homepage);
 
 
 
 //homepage after login
-router.get('/home', auth.homepage);
+router.get('/ticketbooking', auth.ticketbooking);
+
 
 
 //admin Dashboard

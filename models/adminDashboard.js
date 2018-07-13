@@ -5,7 +5,14 @@ var Schema = mongoose.Schema;
 var adminDashboardSchema = new Schema({
     moviename: String,
     path: { type: String, required: true, trim: true },
-    originalname: { type: String, required: true }
+    originalname: { type: String, required: true },
+    date1 : {type : Date },
+    date2 : {type : Date },
+    morningShow : String,
+    noonShow : String,
+    firstShow : String,
+    secondShow : String
+    
     });
 
 // UserSchema.plugin(passportLocalMongoose);
